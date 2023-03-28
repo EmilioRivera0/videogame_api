@@ -18,9 +18,9 @@ Methods:
   DELETE: to remove the specified videogame from  the Data Base
 
 Git Repositories:
-  API: https://github.com/EmilioRiveraMacias/videogame_api
+  API: https://github.com/EmilioRivera0/videogame_api
   Web Client: https://github.com/C4ncino/videogame_api_client
 
 DEPLOY:
   API: https://videogame-api-kouw.onrender.com
-  Web Client:
+  Web Client: https://videogame-api-client.vercel.app/
