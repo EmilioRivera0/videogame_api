@@ -77,7 +77,9 @@ def get_all_videogames():
 #GET request to view the specified videogame 
 @app.route(URI+'<string:v_name>',methods=['GET'])
 def get_specific_videogame(v_name):
-    pass
+    v_name = '%'+v_name+'%'
+    with Session(engine) as session:
+        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_v_name"),{'_v_name':v_name}))
 
 #GET request to return all the videogames from the specified developer
 @app.route(URI+'dev/<string:dev_name>',methods=['GET'])
