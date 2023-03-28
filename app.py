@@ -33,7 +33,7 @@ def serialize_raw_query_data(raw_data):
     serialized_data = []
     #iterate through each tuple to serialize it in a list of dictionaries
     for _tuple in raw_data:
-        serialized_data.append({'id':_tuple.videogame_id,'title':_tuple.title,'description':_tuple.description,'developer':_tuple.developer,'release_year':_tuple.release_year,'clasification':_tuple.clasification,'image':_tuple.image})
+        serialized_data.append({'id':_tuple.videogame_id,'title':_tuple.title,'description':_tuple.description,'developer':_tuple.developer,'release_year':_tuple.release_year.year,'clasification':_tuple.clasification,'image':_tuple.image})
     return jsonify(serialized_data)
 
 #GET request to view all videogames from the Data Base, POST request to append new videogames to the Data Base 
@@ -53,7 +53,7 @@ def get_all_videogames():
             _title = request.form.get('title')
             _description = request.form.get('description')
             _developer = request.form.get('developer')
-            _release_year = request.form.get('release_year')
+            _release_year = request.form.get('release_year') 
             _clasification = request.form.get('clasification')
             _image = request.form.get('image')
             #insert new videogame row in the data base
