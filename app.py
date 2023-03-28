@@ -18,7 +18,7 @@ from flask_cors import CORS
 URI = '/api/videogames/'
 
 #data base engine to establishing connection
-engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg-cgeusjpmbg568r4g3plg-a.oregon-postgres.render.com/examen2')
+engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg-cgeusjpmbg568r4g3plg-a.oregon-postgres.render.com/examen2',echo=True)
 
 #creating the Flask object app
 app = Flask(__name__)
@@ -77,14 +77,25 @@ def get_all_videogames():
 #GET request to view the specified videogame 
 @app.route(URI+'<string:v_name>',methods=['GET'])
 def get_specific_videogame(v_name):
+    print(v_name)
+    v_name_upper = '%'+v_name.upper()+'%'
+    v_name_lower = '%'+v_name.lower()+'%'
+    v_name_capitalize = '%'+v_name.lower().capitalize()+'%'
+    v_name_title = '%'+v_name.title()+'%'
     v_name = '%'+v_name+'%'
     with Session(engine) as session:
-        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_v_name"),{'_v_name':v_name}))
+        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_v_name_upper OR title LIKE :_v_name_lower OR title LIKE :_v_name_capitalize OR title LIKE :_v_name_title OR title LIKE :_v_name"),{'_v_name_upper':v_name_upper,'_v_name_lower':v_name_lower,'_v_name_capitalize':v_name_capitalize,'_v_name_title':v_name_title,'_v_name':v_name}))
 
 #GET request to return all the videogames from the specified developer
 @app.route(URI+'dev/<string:dev_name>',methods=['GET'])
 def get_dev_videogames(dev_name):
-    pass
+    dev_name_upper = '%'+dev_name.upper()+'%'
+    dev_name_lower = '%'+dev_name.lower()+'%'
+    dev_name_capitalize = '%'+dev_name.lower().capitalize()+'%'
+    dev_name_title = '%'+dev_name.title()+'%'
+    dev_name = '%'+dev_name+'%'
+    with Session(engine) as session:
+        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE developer LIKE :_dev_name_upper OR developer LIKE :_dev_name_lower OR developer LIKE :_dev_name_capitalize OR developer LIKE :_dev_name_title OR developer LIKE :_dev_name"),{'_dev_name_upper':dev_name_upper,'_dev_name_lower':dev_name_lower,'_dev_name_capitalize':dev_name_capitalize,'_dev_name_title':dev_name_title,'_dev_name':dev_name}))
 
 #API program start point ----->
 #check if current module is running as main
