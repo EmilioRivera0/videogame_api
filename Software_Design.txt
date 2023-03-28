@@ -1,0 +1,26 @@
+Carlos Cancino Escoba
+Emilio Rivera Macías
+
+Data Base Metadata:
+  videogames:
+    id | title | description | developer | release year | clasification | image
+
+    *PostgreSQL date format: 1922-02-02
+
+API Endpoints:
+  /api/videogames
+  /api/videogames/<videogame name>
+  /api/videogames/dev/<developer name>
+
+Methods:
+  GET: to get the information of all the videogames from the Data Base or from only the one specified
+  POST: to append a new videogame to de Data Base
+  DELETE: to remove the specified videogame from  the Data Base
+
+Git Repositories:
+  API: https://github.com/EmilioRiveraMacias/videogame_api
+  Web Client: https://github.com/C4ncino/videogame_api_client
+
+DEPLOY:
+  API:
+  Web Client:
