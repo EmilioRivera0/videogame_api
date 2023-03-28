@@ -22,5 +22,5 @@ Git Repositories:
   Web Client: https://github.com/C4ncino/videogame_api_client
 
 DEPLOY:
-  API:
+  API: https://videogame-api-kouw.onrender.com
   Web Client:
