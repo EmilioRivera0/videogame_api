@@ -11,7 +11,7 @@ from flask import Flask, jsonify, abort, request
 from sqlalchemy import text, create_engine
 from sqlalchemy.orm import Session
 import psycopg2
-from flask_cors import cross_origin
+from flask_cors import CORS
 
 #object declaration ----->
 #URI of the API
@@ -22,6 +22,7 @@ engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg
 
 #creating the Flask object app
 app = Flask(__name__)
+CORS(app)
 
 #function definition ----->
 #serialize data function
@@ -36,7 +37,6 @@ def serialize_raw_query_data(raw_data):
 #GET request to view all videogames from the Data Base, POST request to append new videogames to the Data Base 
 #and DELETE request to remove the specified videogame from the Data Base
 @app.route(URI, methods=['GET','POST','DELETE'])
-@cross_origin()
 def get_all_videogames():
     """ main API function for GET, POST and DELETE methods """
     
