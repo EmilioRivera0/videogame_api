@@ -34,7 +34,7 @@ def get_all_videogames():
         if request.method == 'GET':
             all_videogames = session.execute(text('SELECT * FROM public.videogames'))
             print(all_videogames.all())
-            return 'Succesful'
+            return jsonify(all_videogames.all())
         elif request.method == 'POST':
             pass
         elif request.method == 'DELETE':
