@@ -22,6 +22,8 @@ engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg
 
 #creating the Flask object app
 app = Flask(__name__)
+
+#enable CORS
 CORS(app)
 
 #function definition ----->
@@ -39,15 +41,37 @@ def serialize_raw_query_data(raw_data):
 @app.route(URI, methods=['GET','POST','DELETE'])
 def get_all_videogames():
     """ main API function for GET, POST and DELETE methods """
-    
+    #start session wit the database
     with Session(engine) as session:
+        #GET method
         if request.method == 'GET':
-            #dictionary to store serialized data
+            #return dictionary containing the serialized data of all videogames
             return serialize_raw_query_data(session.execute(text('SELECT * FROM public.videogames')))
+        #POST  method
         elif request.method == 'POST':
-            pass
+            #initialize the necessary variables to insert a new video game in the data base with the data of the received HTTP packet
+            _title = request.form.get('title')
+            _description = request.form.get('description')
+            _developer = request.form.get('developer')
+            _release_year = request.form.get('release_year')
+            _clasification = request.form.get('clasification')
+            _image = request.form.get('image')
+            #insert new videogame row in the data base
+            session.execute(text('INSERT INTO public.videogames (title,description,developer,release_year,clasification,image) VALUES (:_title, :_description, :_developer, :_release_year, :_clasification, :_image)'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image})
+            #commit changes on the data base
+            session.commit()
+            #return dictionary containing the serialized data of all videogames
+            return serialize_raw_query_data(session.execute(text('SELECT * FROM public.videogames')))
+        #DELETE method
         elif request.method == 'DELETE':
-            pass
+            #initialize the id variable with the HTTP packet data to delete the specified videogame from the data base
+            _id = request.form.get('id')
+            #remove the specified videogame from the data base by its id
+            session.execute(text('DELETE FROM public.videogames WHERE videogame_id=:_id'),{'_id':_id})
+            #commit changes on the data base
+            session.commit()
+            #return dictionary containing the serialized data of all videogames
+            return serialize_raw_query_data(session.execute(text('SELECT * FROM public.videogames')))
     return abort(505)
 
 #GET request to view the specified videogame 
