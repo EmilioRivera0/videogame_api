@@ -98,13 +98,12 @@ def get_specific_videogame(_name):
     #initialize the different string variables to improve the search engine that accepts different user input formats
     _name_upper = '%'+_name.upper()+'%'
     _name_lower = '%'+_name.lower()+'%'
-    _name_capitalize = '%'+_name.lower().capitalize()+'%'
     _name_title = '%'+_name.title()+'%'
     _name = '%'+_name+'%'
     #start session wit the database
     with Session(engine) as session:
         #search query to retrieve the matching rows
-        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_name_upper OR title LIKE :_name_lower OR title LIKE :_name_capitalize OR title LIKE :_name_title OR title LIKE :_name OR developer LIKE :_name_upper OR developer LIKE :_name_lower OR developer LIKE :_name_capitalize OR developer LIKE :_name_title OR developer LIKE :_name"),{'_name_upper':_name_upper,'_name_lower':_name_lower,'_name_capitalize':_name_capitalize,'_name_title':_name_title,'_name':_name}))
+        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_name_upper OR title LIKE :_name_lower OR title LIKE :_name_title OR title LIKE :_name OR developer LIKE :_name_upper OR developer LIKE :_name_lower OR developer LIKE :_name_title OR developer LIKE :_name"),{'_name_upper':_name_upper,'_name_lower':_name_lower,'_name_title':_name_title,'_name':_name}))
 
 #API program start point ----->
 #check if current module is running as main
