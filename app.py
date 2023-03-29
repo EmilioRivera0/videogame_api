@@ -38,7 +38,7 @@ def serialize_raw_query_data(raw_data):
 
 #GET request to view all videogames from the Data Base, POST request to append new videogames to the Data Base 
 #and DELETE request to remove the specified videogame from the Data Base
-@app.route(URI, methods=['GET','POST','DELETE'])
+@app.route(URI, methods=['GET','POST','DELETE','PUT'])
 def get_all_videogames():
     """ main API function for GET, POST and DELETE methods """
     #start session wit the database
@@ -68,6 +68,22 @@ def get_all_videogames():
             _id = request.form.get('id')
             #remove the specified videogame from the data base by its id
             session.execute(text('DELETE FROM public.videogames WHERE videogame_id=:_id'),{'_id':_id})
+            #commit changes on the data base
+            session.commit()
+            #return dictionary containing the serialized data of all videogames
+            return serialize_raw_query_data(session.execute(text('SELECT * FROM public.videogames')))
+        #PUT method
+        elif request.method == 'PUT':
+            #initialize the necessary variables to modify the specified videogame in the data base with the data of the received HTTP packet
+            _id = request.form.get('id')
+            _title = request.form.get('title')
+            _description = request.form.get('description')
+            _developer = request.form.get('developer')
+            _release_year = request.form.get('release_year') 
+            _clasification = request.form.get('clasification')
+            _image = request.form.get('image')
+            #modify the specified videogame row in the data base
+            session.execute(text('UPDATE public.videogames SET title = :_title, description = :_description, developer = :_developer, release_year = :_release_year, clasification = :_clasification, image = :_image WHERE videogame_id = :_id'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_id':_id})
             #commit changes on the data base
             session.commit()
             #return dictionary containing the serialized data of all videogames
