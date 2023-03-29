@@ -18,7 +18,7 @@ from flask_cors import CORS
 URI = '/api/videogames/'
 
 #data base engine to establishing connection
-engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg-cgeusjpmbg568r4g3plg-a.oregon-postgres.render.com/examen2',echo=True)
+engine = create_engine('postgresql://emilio:C4iIa5Wr5BngpdmjpUwoF3BicwJX6ZAw@dpg-cgeusjpmbg568r4g3plg-a.oregon-postgres.render.com/examen2')
 
 #creating the Flask object app
 app = Flask(__name__)
@@ -74,33 +74,19 @@ def get_all_videogames():
             return serialize_raw_query_data(session.execute(text('SELECT * FROM public.videogames')))
     return abort(505)
 
-#GET request to view the specified videogame 
-@app.route(URI+'<string:v_name>',methods=['GET'])
-def get_specific_videogame(v_name):
+#GET request to view the specified videogame searching by title and developer 
+@app.route(URI+'<string:_name>',methods=['GET'])
+def get_specific_videogame(_name):
     #initialize the different string variables to improve the search engine that accepts different user input formats
-    v_name_upper = '%'+v_name.upper()+'%'
-    v_name_lower = '%'+v_name.lower()+'%'
-    v_name_capitalize = '%'+v_name.lower().capitalize()+'%'
-    v_name_title = '%'+v_name.title()+'%'
-    v_name = '%'+v_name+'%'
+    _name_upper = '%'+_name.upper()+'%'
+    _name_lower = '%'+_name.lower()+'%'
+    _name_capitalize = '%'+_name.lower().capitalize()+'%'
+    _name_title = '%'+_name.title()+'%'
+    _name = '%'+_name+'%'
     #start session wit the database
     with Session(engine) as session:
         #search query to retrieve the matching rows
-        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_v_name_upper OR title LIKE :_v_name_lower OR title LIKE :_v_name_capitalize OR title LIKE :_v_name_title OR title LIKE :_v_name"),{'_v_name_upper':v_name_upper,'_v_name_lower':v_name_lower,'_v_name_capitalize':v_name_capitalize,'_v_name_title':v_name_title,'_v_name':v_name}))
-
-#GET request to return all the videogames from the specified developer
-@app.route(URI+'dev/<string:dev_name>',methods=['GET'])
-def get_dev_videogames(dev_name):
-    #initialize the different string variables to improve the search engine that accepts different user input formats
-    dev_name_upper = '%'+dev_name.upper()+'%'
-    dev_name_lower = '%'+dev_name.lower()+'%'
-    dev_name_capitalize = '%'+dev_name.lower().capitalize()+'%'
-    dev_name_title = '%'+dev_name.title()+'%'
-    dev_name = '%'+dev_name+'%'
-    #start session wit the database
-    with Session(engine) as session:
-        #search query to retrieve the matching rows
-        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE developer LIKE :_dev_name_upper OR developer LIKE :_dev_name_lower OR developer LIKE :_dev_name_capitalize OR developer LIKE :_dev_name_title OR developer LIKE :_dev_name"),{'_dev_name_upper':dev_name_upper,'_dev_name_lower':dev_name_lower,'_dev_name_capitalize':dev_name_capitalize,'_dev_name_title':dev_name_title,'_dev_name':dev_name}))
+        return serialize_raw_query_data(session.execute(text("SELECT * FROM public.videogames WHERE title LIKE :_name_upper OR title LIKE :_name_lower OR title LIKE :_name_capitalize OR title LIKE :_name_title OR title LIKE :_name OR developer LIKE :_name_upper OR developer LIKE :_name_lower OR developer LIKE :_name_capitalize OR developer LIKE :_name_title OR developer LIKE :_name"),{'_name_upper':_name_upper,'_name_lower':_name_lower,'_name_capitalize':_name_capitalize,'_name_title':_name_title,'_name':_name}))
 
 #API program start point ----->
 #check if current module is running as main
