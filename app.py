@@ -33,7 +33,7 @@ def serialize_raw_query_data(raw_data):
     serialized_data = []
     #iterate through each tuple to serialize it in a list of dictionaries
     for _tuple in raw_data:
-        serialized_data.append({'id':_tuple.videogame_id,'title':_tuple.title,'description':_tuple.description,'developer':_tuple.developer,'release_year':_tuple.release_year.year,'clasification':_tuple.clasification,'image':_tuple.image})
+        serialized_data.append({'id':_tuple.videogame_id,'title':_tuple.title,'description':_tuple.description,'developer':_tuple.developer,'release_year':_tuple.release_year.year,'clasification':_tuple.clasification,'image':_tuple.image,'banner':_tuple.banner})
     return jsonify(serialized_data)
 
 #GET request to view all videogames from the Data Base, POST request to append new videogames to the Data Base 
@@ -56,8 +56,9 @@ def get_all_videogames():
             _release_year = request.form.get('release_year') 
             _clasification = request.form.get('clasification')
             _image = request.form.get('image')
+            _banner = request.form.get('banner')
             #insert new videogame row in the data base
-            session.execute(text('INSERT INTO public.videogames (title,description,developer,release_year,clasification,image) VALUES (:_title, :_description, :_developer, :_release_year, :_clasification, :_image)'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image})
+            session.execute(text('INSERT INTO public.videogames (title,description,developer,release_year,clasification,image,banner) VALUES (:_title, :_description, :_developer, :_release_year, :_clasification, :_image, :_banner)'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_banner':_banner})
             #commit changes on the data base
             session.commit()
             #return dictionary containing the serialized data of all videogames
@@ -82,8 +83,9 @@ def get_all_videogames():
             _release_year = request.form.get('release_year') 
             _clasification = request.form.get('clasification')
             _image = request.form.get('image')
+            _banner = request.form.get('banner')
             #modify the specified videogame row in the data base
-            session.execute(text('UPDATE public.videogames SET title = :_title, description = :_description, developer = :_developer, release_year = :_release_year, clasification = :_clasification, image = :_image WHERE videogame_id = :_id'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_id':_id})
+            session.execute(text('UPDATE public.videogames SET title = :_title, description = :_description, developer = :_developer, release_year = :_release_year, clasification = :_clasification, image = :_image, banner = :_banner WHERE videogame_id = :_id'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_id':_id,'_banner':_banner})
             #commit changes on the data base
             session.commit()
             #return dictionary containing the serialized data of all videogames
