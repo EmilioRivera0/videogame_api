@@ -50,13 +50,13 @@ def get_all_videogames():
         #POST  method
         elif request.method == 'POST':
             #initialize the necessary variables to insert a new video game in the data base with the data of the received HTTP packet
-            _title = request.form.get('title')
-            _description = request.form.get('description')
-            _developer = request.form.get('developer')
-            _release_year = request.form.get('release_year') 
-            _clasification = request.form.get('clasification')
-            _image = request.form.get('image')
-            _banner = request.form.get('banner')
+            _title = request.json.get('title')
+            _description = request.json.get('description')
+            _developer = request.json.get('developer')
+            _release_year = request.json.get('release_year') 
+            _clasification = request.json.get('clasification')
+            _image = request.json.get('image')
+            _banner = request.json.get('banner')
             #insert new videogame row in the data base
             session.execute(text('INSERT INTO public.videogames (title,description,developer,release_year,clasification,image,banner) VALUES (:_title, :_description, :_developer, :_release_year, :_clasification, :_image, :_banner)'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_banner':_banner})
             #commit changes on the data base
@@ -66,7 +66,7 @@ def get_all_videogames():
         #DELETE method
         elif request.method == 'DELETE':
             #initialize the id variable with the HTTP packet data to delete the specified videogame from the data base
-            _id = request.form.get('id')
+            _id = request.json.get('id')
             #remove the specified videogame from the data base by its id
             session.execute(text('DELETE FROM public.videogames WHERE videogame_id=:_id'),{'_id':_id})
             #commit changes on the data base
@@ -76,14 +76,14 @@ def get_all_videogames():
         #PUT method
         elif request.method == 'PUT':
             #initialize the necessary variables to modify the specified videogame in the data base with the data of the received HTTP packet
-            _id = request.form.get('id')
-            _title = request.form.get('title')
-            _description = request.form.get('description')
-            _developer = request.form.get('developer')
-            _release_year = request.form.get('release_year') 
-            _clasification = request.form.get('clasification')
-            _image = request.form.get('image')
-            _banner = request.form.get('banner')
+            _id = request.json.get('id')
+            _title = request.json.get('title')
+            _description = request.json.get('description')
+            _developer = request.json.get('developer')
+            _release_year = request.json.get('release_year') 
+            _clasification = request.json.get('clasification')
+            _image = request.json.get('image')
+            _banner = request.json.get('banner')
             #modify the specified videogame row in the data base
             session.execute(text('UPDATE public.videogames SET title = :_title, description = :_description, developer = :_developer, release_year = :_release_year, clasification = :_clasification, image = :_image, banner = :_banner WHERE videogame_id = :_id'),{'_title':_title,'_description':_description,'_developer':_developer,'_release_year':_release_year,'_clasification':_clasification,'_image':_image,'_id':_id,'_banner':_banner})
             #commit changes on the data base
