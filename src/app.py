@@ -6,6 +6,8 @@
 - Contacts: emilioriveramacias@gmail.com
 -----------------------------------------------------------------------------------------------------------------------------------"""
 
+# *I know that it is classification and not clasification as it is written in this code, sorry for this little mistake :)
+
 #necessary imports ----->
 from flask import Flask, jsonify, abort, request
 from sqlalchemy import text, create_engine
