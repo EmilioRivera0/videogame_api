@@ -68,6 +68,10 @@ Python developed API that has the CRUD functions and a search engine to interact
 
 - https://videogame-api-kouw.onrender.com
 
+## Appendix
+
+PostgreSQL database will expire on June 22, 2023
+
 # Tech Stack
 
 **Server:** Flask and PostgreSQL
